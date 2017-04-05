@@ -174,8 +174,6 @@ zacc,zldares = ldaTest(means,covmat,xx,np.zeros((xx.shape[0],1)))
 plt.contourf(x1,x2,zldares.reshape((x1.shape[0],x2.shape[0])),alpha=0.3)
 plt.scatter(Xtest[:,0],Xtest[:,1],c=ytest)
 plt.title('LDA')
-plt.show()
-'''
 plt.subplot(1, 2, 2)
 
 zacc,zqdares = qdaTest(means,covmats,xx,np.zeros((xx.shape[0],1)))
@@ -184,6 +182,7 @@ plt.scatter(Xtest[:,0],Xtest[:,1],c=ytest)
 plt.title('QDA')
 
 plt.show()
+'''
 # Problem 2
 if sys.version_info.major == 2:
     X,y,Xtest,ytest = pickle.load(open('diabetes.pickle','rb'))
