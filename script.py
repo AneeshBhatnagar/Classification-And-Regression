@@ -118,6 +118,10 @@ def testOLERegression(w,Xtest,ytest):
     # ytest = X x 1
     # Output:
     # mse
+    '''
+        Using [(y - xw)^2]/N as the mean squared error 
+            (summation of all individual values)
+    '''
     error = ytest - np.dot(Xtest,w)
     N = Xtest.shape[0]
     mse = np.sum(pow(error,2),axis = 0)/N
