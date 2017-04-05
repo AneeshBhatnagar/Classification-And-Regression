@@ -37,6 +37,14 @@ def qdaLearn(X,y):
     # covmats - A list of k d x d learnt covariance matrices for each of the k classes
     
     # IMPLEMENT THIS METHOD
+    means = []
+    covmats = []
+    unique_classes = np.unique(y);
+    for c in unique_classes:
+        temp = X[y.flatten() == c]
+        means.append(temp.mean(axis =0))
+        covmats.append(np.cov(temp, rowvar =0))
+    means=np.transpose(np.asarray(means))
     return means,covmats
 
 def ldaTest(means,covmat,Xtest,ytest):
@@ -125,13 +133,13 @@ else:
 
 # LDA
 means,covmat = ldaLearn(X,y)
-ldaacc,ldares = ldaTest(means,covmat,Xtest,ytest)
-print('LDA Accuracy = '+str(ldaacc))
+#ldaacc,ldares = ldaTest(means,covmat,Xtest,ytest)
+#print('LDA Accuracy = '+str(ldaacc))
 # QDA
 means,covmats = qdaLearn(X,y)
-qdaacc,qdares = qdaTest(means,covmats,Xtest,ytest)
-print('QDA Accuracy = '+str(qdaacc))
-
+#qdaacc,qdares = qdaTest(means,covmats,Xtest,ytest)
+#print('QDA Accuracy = '+str(qdaacc))
+'''
 # plotting boundaries
 x1 = np.linspace(-5,20,100)
 x2 = np.linspace(-5,20,100)
@@ -251,3 +259,4 @@ plt.plot(range(pmax),mses5)
 plt.title('MSE for Test Data')
 plt.legend(('No Regularization','Regularization'))
 plt.show()
+'''
