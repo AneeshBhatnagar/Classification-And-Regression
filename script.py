@@ -97,7 +97,7 @@ def learnOLERegression(X,y):
     # y = N x 1                                                               
     # Output: 
     # w = d x 1 
-    # IMPLEMENT THIS METHOD 
+    w = np.dot(np.linalg.inv(np.dot(X.T,X)), np.dot(X.T,y))
     return w
 
 def learnRidgeRegression(X,y,lambd):
@@ -118,8 +118,9 @@ def testOLERegression(w,Xtest,ytest):
     # ytest = X x 1
     # Output:
     # mse
-    
-    # IMPLEMENT THIS METHOD
+    error = ytest - np.dot(Xtest,w)
+    N = Xtest.shape[0]
+    mse = np.sum(pow(error,2),axis = 0)/N
     return mse
 
 def regressionObjVal(w, X, y, lambd):
@@ -182,7 +183,7 @@ plt.scatter(Xtest[:,0],Xtest[:,1],c=ytest)
 plt.title('QDA')
 
 plt.show()
-'''
+
 # Problem 2
 if sys.version_info.major == 2:
     X,y,Xtest,ytest = pickle.load(open('diabetes.pickle','rb'))
@@ -201,7 +202,7 @@ mle_i = testOLERegression(w_i,Xtest_i,ytest)
 
 print('MSE without intercept '+str(mle))
 print('MSE with intercept '+str(mle_i))
-
+'''
 # Problem 3
 k = 101
 lambdas = np.linspace(0, 1, num=k)
