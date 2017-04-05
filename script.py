@@ -49,6 +49,8 @@ def qdaLearn(X,y):
 
 def ldaTest(means,covmat,Xtest,ytest):
     # Inputs
+    # means - d x k
+    # covmat - d x d
     # means, covmat - parameters of the LDA model
     # Xtest - a N x d matrix with each row corresponding to a test example
     # ytest - a N x 1 column vector indicating the labels for each test example
@@ -57,6 +59,14 @@ def ldaTest(means,covmat,Xtest,ytest):
     # ypred - N x 1 column vector indicating the predicted labels
 
     # IMPLEMENT THIS METHOD
+    inv = np.linalg.inv(covmat)
+    ypred = np.zeros((Xtest.shape[0],1))
+    pdf = np.zeros((Xtest.shape[0], means.shape[1]))
+    for i in range(means.shape[1]):
+        #Run it k times
+        pdf[:,i] = np.exp(-0.5*np.sum((Xtest - means[:,i])*np.dot(inv, (Xtest - means[:,i]).T).T, axis = 1))
+    ypred = np.argmax(pdf,1)+1
+    acc = 100 *np.mean(ypred == ytest.flatten())
     return acc,ypred
 
 def qdaTest(means,covmats,Xtest,ytest):
@@ -133,13 +143,13 @@ else:
 
 # LDA
 means,covmat = ldaLearn(X,y)
-#ldaacc,ldares = ldaTest(means,covmat,Xtest,ytest)
-#print('LDA Accuracy = '+str(ldaacc))
+ldaacc,ldares = ldaTest(means,covmat,Xtest,ytest)
+print('LDA Accuracy = '+str(ldaacc))
 # QDA
 means,covmats = qdaLearn(X,y)
 #qdaacc,qdares = qdaTest(means,covmats,Xtest,ytest)
 #print('QDA Accuracy = '+str(qdaacc))
-'''
+
 # plotting boundaries
 x1 = np.linspace(-5,20,100)
 x2 = np.linspace(-5,20,100)
@@ -155,7 +165,8 @@ zacc,zldares = ldaTest(means,covmat,xx,np.zeros((xx.shape[0],1)))
 plt.contourf(x1,x2,zldares.reshape((x1.shape[0],x2.shape[0])),alpha=0.3)
 plt.scatter(Xtest[:,0],Xtest[:,1],c=ytest)
 plt.title('LDA')
-
+plt.show()
+'''
 plt.subplot(1, 2, 2)
 
 zacc,zqdares = qdaTest(means,covmats,xx,np.zeros((xx.shape[0],1)))
