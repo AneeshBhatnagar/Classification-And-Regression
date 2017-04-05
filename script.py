@@ -18,6 +18,13 @@ def ldaLearn(X,y):
     # covmat - A single d x d learnt covariance matrix 
     
     # IMPLEMENT THIS METHOD 
+    means = []
+    unique_classes = np.unique(y);
+    for c in unique_classes:
+        temp = X[y.flatten() == c]
+        means.append(temp.mean(axis =0))
+    means=np.transpose(np.asarray(means))
+    covmat = np.cov(X, rowvar=0)
     return means,covmat
 
 def qdaLearn(X,y):
