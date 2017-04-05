@@ -79,6 +79,16 @@ def qdaTest(means,covmats,Xtest,ytest):
     # ypred - N x 1 column vector indicating the predicted labels
 
     # IMPLEMENT THIS METHOD
+
+    ypred = np.zeros((Xtest.shape[0],1))
+    pdf = np.zeros((Xtest.shape[0], means.shape[1]))
+    for i in range(means.shape[1]):
+        #Run it k times
+        inv = np.linalg.inv(covmats[i])
+        sqrt_det = np.sqrt(np.linalg.det(covmats[i]))
+        pdf[:,i] = np.exp(-0.5*np.sum((Xtest - means[:,i])*np.dot(inv, (Xtest - means[:,i]).T).T, axis = 1))/sqrt_det
+    ypred = np.argmax(pdf,1)+1
+    acc = 100 *np.mean(ypred == ytest.flatten())
     return acc,ypred
 
 def learnOLERegression(X,y):
@@ -87,8 +97,7 @@ def learnOLERegression(X,y):
     # y = N x 1                                                               
     # Output: 
     # w = d x 1 
-	
-    # IMPLEMENT THIS METHOD                                                   
+    # IMPLEMENT THIS METHOD 
     return w
 
 def learnRidgeRegression(X,y,lambd):
@@ -147,8 +156,8 @@ ldaacc,ldares = ldaTest(means,covmat,Xtest,ytest)
 print('LDA Accuracy = '+str(ldaacc))
 # QDA
 means,covmats = qdaLearn(X,y)
-#qdaacc,qdares = qdaTest(means,covmats,Xtest,ytest)
-#print('QDA Accuracy = '+str(qdaacc))
+qdaacc,qdares = qdaTest(means,covmats,Xtest,ytest)
+print('QDA Accuracy = '+str(qdaacc))
 
 # plotting boundaries
 x1 = np.linspace(-5,20,100)
