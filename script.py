@@ -124,7 +124,7 @@ def testOLERegression(w,Xtest,ytest):
     '''
     error = ytest - np.dot(Xtest,w)
     N = Xtest.shape[0]
-    mse = np.sum(pow(error,2),axis = 0)/N
+    mse = np.dot(error.T,error)/N
     return mse
 
 def regressionObjVal(w, X, y, lambd):
