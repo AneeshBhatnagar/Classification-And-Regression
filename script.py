@@ -127,8 +127,13 @@ def regressionObjVal(w, X, y, lambd):
     # to w (vector) for the given data X and y and the regularization parameter
     # lambda                                                                  
 
-    # IMPLEMENT THIS METHOD                                             
-    return error, error_grad
+    # IMPLEMENT THIS METHOD 
+
+    w = w.reshape(w.shape[0],1)
+
+    error=(np.dot((y-np.dot(X,w)).T, (y-np.dot(X,w))) + np.dot(lambd, np.dot(w.T,w)))/2.0
+    error_grad= np.dot(-X.T, (y-np.dot(X,w))) + lambd*w                                     
+    return error.flatten(), error_grad.flatten()
 
 def mapNonLinear(x,p):
     # Inputs:                                                                  
@@ -221,7 +226,7 @@ plt.plot(lambdas,mses3)
 plt.title('MSE for Test Data')
 
 plt.show()
-'''
+
 # Problem 4
 k = 101
 lambdas = np.linspace(0, 1, num=k)
@@ -252,7 +257,7 @@ plt.title('MSE for Test Data')
 plt.legend(['Using scipy.minimize','Direct minimization'])
 plt.show()
 
-
+'''
 # Problem 5
 pmax = 7
 lambda_opt = 0 # REPLACE THIS WITH lambda_opt estimated from Problem 3
