@@ -17,7 +17,6 @@ def ldaLearn(X,y):
     # means - A d x k matrix containing learnt means for each of the k classes
     # covmat - A single d x d learnt covariance matrix 
     
-    # IMPLEMENT THIS METHOD 
     means = []
     unique_classes = np.unique(y);
     for c in unique_classes:
@@ -36,7 +35,6 @@ def qdaLearn(X,y):
     # means - A d x k matrix containing learnt means for each of the k classes
     # covmats - A list of k d x d learnt covariance matrices for each of the k classes
     
-    # IMPLEMENT THIS METHOD
     means = []
     covmats = []
     unique_classes = np.unique(y);
@@ -58,7 +56,6 @@ def ldaTest(means,covmat,Xtest,ytest):
     # acc - A scalar accuracy value
     # ypred - N x 1 column vector indicating the predicted labels
 
-    # IMPLEMENT THIS METHOD
     inv = np.linalg.inv(covmat)
     ypred = np.zeros((Xtest.shape[0],1))
     pdf = np.zeros((Xtest.shape[0], means.shape[1]))
@@ -78,8 +75,6 @@ def qdaTest(means,covmats,Xtest,ytest):
     # acc - A scalar accuracy value
     # ypred - N x 1 column vector indicating the predicted labels
 
-    # IMPLEMENT THIS METHOD
-
     ypred = np.zeros((Xtest.shape[0],1))
     pdf = np.zeros((Xtest.shape[0], means.shape[1]))
     for i in range(means.shape[1]):
@@ -97,6 +92,7 @@ def learnOLERegression(X,y):
     # y = N x 1                                                               
     # Output: 
     # w = d x 1 
+
     w = np.dot(np.linalg.inv(np.dot(X.T,X)), np.dot(X.T,y))
     return w
 
@@ -106,9 +102,8 @@ def learnRidgeRegression(X,y,lambd):
     # y = N x 1 
     # lambd = ridge parameter (scalar)
     # Output:                                                                  
-    # w = d x 1                                                                
+    # w = d x 1           
 
-    # IMPLEMENT THIS METHOD 
     I = np.identity(X.shape[1])
     w = np.dot(np.linalg.inv(np.add(lambd*I, np.dot(X.T,X))), np.dot(X.T,y))                                                  
     return w
@@ -120,10 +115,7 @@ def testOLERegression(w,Xtest,ytest):
     # ytest = X x 1
     # Output:
     # mse
-    '''
-        Using [(y - xw)^2]/N as the mean squared error 
-            (summation of all individual values)
-    '''
+
     error = ytest - np.dot(Xtest,w)
     N = Xtest.shape[0]
     mse = np.dot(error.T,error)/N
