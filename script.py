@@ -108,7 +108,9 @@ def learnRidgeRegression(X,y,lambd):
     # Output:                                                                  
     # w = d x 1                                                                
 
-    # IMPLEMENT THIS METHOD                                                   
+    # IMPLEMENT THIS METHOD 
+    I = np.identity(X.shape[1])
+    w = np.dot(np.linalg.inv(np.add(lambd*I, np.dot(X.T,X))), np.dot(X.T,y))                                                  
     return w
 
 def testOLERegression(w,Xtest,ytest):
@@ -206,7 +208,7 @@ mle_i = testOLERegression(w_i,Xtest_i,ytest)
 
 print('MSE without intercept '+str(mle))
 print('MSE with intercept '+str(mle_i))
-'''
+
 # Problem 3
 k = 101
 lambdas = np.linspace(0, 1, num=k)
@@ -227,6 +229,7 @@ plt.plot(lambdas,mses3)
 plt.title('MSE for Test Data')
 
 plt.show()
+'''
 # Problem 4
 k = 101
 lambdas = np.linspace(0, 1, num=k)
