@@ -143,6 +143,16 @@ def mapNonLinear(x,p):
     # Xd - (N x (d+1)) 
 	
     # IMPLEMENT THIS METHOD
+    Xd = np.ones((x.shape[0],p+1))
+
+    if p == 0:
+        return Xd
+
+    Xd[:,1] = x
+
+    for i in range(2,p+1):
+        Xd[:,i] = np.multiply(Xd[:,i-1], x)
+
     return Xd
 
 # Main script
@@ -235,6 +245,10 @@ mses4_train = np.zeros((k,1))
 mses4 = np.zeros((k,1))
 opts = {'maxiter' : 20}    # Preferred value.                                                
 w_init = np.ones((X_i.shape[1],1))
+
+min_overall = 10**6
+min_lambda = -1
+
 for lambd in lambdas:
     args = (X_i, y, lambd)
     w_l = minimize(regressionObjVal, w_init, jac=True, args=args,method='CG', options=opts)
@@ -242,6 +256,11 @@ for lambd in lambdas:
     w_l = np.reshape(w_l,[len(w_l),1])
     mses4_train[i] = testOLERegression(w_l,X_i,y)
     mses4[i] = testOLERegression(w_l,Xtest_i,ytest)
+
+    if mses4[i] + mses3[i] < min_overall:
+        min_overall = mses4[i] + mses3[i]
+        min_lambda = lambd
+
     i = i + 1
 fig = plt.figure(figsize=[12,6])
 plt.subplot(1, 2, 1)
@@ -257,10 +276,10 @@ plt.title('MSE for Test Data')
 plt.legend(['Using scipy.minimize','Direct minimization'])
 plt.show()
 
-'''
+
 # Problem 5
 pmax = 7
-lambda_opt = 0 # REPLACE THIS WITH lambda_opt estimated from Problem 3
+lambda_opt = min_lambda # REPLACE THIS WITH lambda_opt estimated from Problem 3
 mses5_train = np.zeros((pmax,2))
 mses5 = np.zeros((pmax,2))
 for p in range(pmax):
@@ -283,4 +302,3 @@ plt.plot(range(pmax),mses5)
 plt.title('MSE for Test Data')
 plt.legend(('No Regularization','Regularization'))
 plt.show()
-'''
