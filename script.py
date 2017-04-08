@@ -119,7 +119,7 @@ def testOLERegression(w,Xtest,ytest):
     error = ytest - np.dot(Xtest,w)
     N = Xtest.shape[0]
     mse = np.dot(error.T,error)/N
-    return mse
+    return mse.flatten()
 
 def regressionObjVal(w, X, y, lambd):
 
